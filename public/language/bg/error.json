@@ -31,7 +31,7 @@
     "invalid-path": "Грешен път",
     "folder-exists": "Вече има папка с това име",
     "invalid-pagination-value": "Грешен номер на странициране, трябва да бъде между %1 и %2",
-    "username-taken": "Потребителското име е заето",
+    "username-taken": "Username taken. Maybe try %1",
     "email-taken": "Адресът на е-пощата вече е зает.",
     "email-nochange": "Въведената е-поща е същата като съществуващата.",
     "email-invited": "На тази е-поща вече е била изпратена покана",
