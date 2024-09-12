@@ -126,7 +126,7 @@ define('forum/register', [
 		} else if (username.length > ajaxify.data.maximumUsernameLength) {
 			showError(usernameInput, username_notify, '[[error:username-too-long]]');
 		} else if (!utils.isUserNameValid(username) || !userslug) {
-			showError(usernameInput, username_notify, 'Username taken. Maybe try ${currentUsername}suffix');
+			showError(usernameInput, username_notify, '[[error:username-taken]]');
 		} else {
 			Promise.allSettled([
 				api.head(`/users/bySlug/${userslug}`, {}),
@@ -135,7 +135,7 @@ define('forum/register', [
 				if (results.every(obj => obj.status === 'rejected')) {
 					showSuccess(usernameInput, username_notify, successIcon);
 				} else {
-					showError(usernameInput, username_notify, '[[error:username-taken]]');
+					showError(usernameInput, username_notify, `[[error:username-taken]] Maybe try ${usernameInput.val()}suffix`);
 				}
 
 				callback();
