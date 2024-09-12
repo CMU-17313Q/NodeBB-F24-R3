@@ -182,7 +182,6 @@ define('forum/register', [
 		}
 	}
 
-	
 	function showError(input, element, msg) {
 		translator.translate(msg, function (translatedMsg) {
 			input.attr('aria-invalid', 'true');
@@ -198,7 +197,6 @@ define('forum/register', [
 				.addClass('register-danger');
 			element.show();
 		});
-	
 		validationError = true;
 	}
 
