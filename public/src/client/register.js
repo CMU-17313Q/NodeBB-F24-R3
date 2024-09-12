@@ -113,7 +113,6 @@ define('forum/register', [
 		// Set initial focus
 		$('#username').trigger('focus');
 	};
-
 	function validateUsername(username, callback) {
 		callback = callback || function () {};
 
@@ -121,6 +120,8 @@ define('forum/register', [
 		username_notify.text('');
 		const usernameInput = $('#username');
 		const userslug = slugify(username);
+		const suffix = 'suffix';
+
 		if (username.length < ajaxify.data.minimumUsernameLength || userslug.length < ajaxify.data.minimumUsernameLength) {
 			showError(usernameInput, username_notify, '[[error:username-too-short]]');
 		} else if (username.length > ajaxify.data.maximumUsernameLength) {
@@ -135,7 +136,8 @@ define('forum/register', [
 				if (results.every(obj => obj.status === 'rejected')) {
 					showSuccess(usernameInput, username_notify, successIcon);
 				} else {
-					showError(usernameInput, username_notify, '[[error:username-taken]]');
+					const suggestedUsername = username + suffix;
+					showError(usernameInput, username_notify, `[[error:username-taken, ${suggestedUsername}]]`);
 				}
 
 				callback();
