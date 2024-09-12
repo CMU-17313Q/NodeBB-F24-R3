@@ -114,6 +114,7 @@ define('forum/register', [
 		$('#username').trigger('focus');
 	};
 
+	
 	function validateUsername(username, callback) {
 		callback = callback || function () {};
 
@@ -135,9 +136,8 @@ define('forum/register', [
 				if (results.every(obj => obj.status === 'rejected')) {
 					showSuccess(usernameInput, username_notify, successIcon);
 				} else {
-					showError(usernameInput, username_notify, '[[error:username-taken]]');
+					showError(usernameInput, username_notify, `[[error:username-taken]] Maybe try ${usernameInput.val()}suffix`);
 				}
-
 				callback();
 			});
 		}
