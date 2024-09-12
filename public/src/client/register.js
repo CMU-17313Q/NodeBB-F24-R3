@@ -136,6 +136,7 @@ define('forum/register', [
 					showSuccess(usernameInput, username_notify, successIcon);
 				} else {
 					showError(usernameInput, username_notify, '[[error:username-taken]]');
+					showError(usernameInput, username_notify, `[[error:username-taken. Maybe try ${username}suffix]]`);
 				}
 
 				callback();
