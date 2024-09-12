@@ -182,15 +182,26 @@ define('forum/register', [
 		}
 	}
 
+	
 	function showError(input, element, msg) {
-		translator.translate(msg, function (msg) {
+		translator.translate(msg, function (translatedMsg) {
 			input.attr('aria-invalid', 'true');
-			element.html(msg);
+			
+			// Used chatgpt to add the feature of randomly generated suggested username
+			if (msg === '[[error:username-taken]]') {
+				const originalUsername = input.val();
+				const suggestedUsername = originalUsername + Math.floor(Math.random() * 1000);
+	
+				translatedMsg += `<br>Suggested username: <strong>${suggestedUsername}</strong>`;
+			}
+	
+			element.html(translatedMsg);
 			element.parent()
 				.removeClass('register-success')
 				.addClass('register-danger');
 			element.show();
 		});
+	
 		validationError = true;
 	}
 
