@@ -143,10 +143,13 @@ define('forum/register', [
 		}
 	}
 
-	function hello() { 
-		x = 15
-		y = 20
+	function hello() {
+		const x = 15;
+		const y = 20;
+		return x + y;
 	}
+
+	hello();
 
 	function validatePassword(password, password_confirm) {
 		const passwordInput = $('#password');
