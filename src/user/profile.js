@@ -127,7 +127,38 @@ module.exports = function (User) {
 		}
 		const exists = await User.existsBySlug(userslug);
 		if (exists) {
-			throw new Error('[[error:username-taken]]');
+			async function suggestAlternativeUsername(username) {
+				return `${username}-suffix`;
+			}
+			
+			async function registerUsername(username) {
+				try {
+					let isUsernameTaken = await checkUsernameAvailability(username);
+			
+					if (isUsernameTaken) {
+						throw new Error('[[error:username-taken]]');
+					}
+			
+					console.log('Username is available.');
+				} catch (error) {
+					if (error.message === '[[error:username-taken]]') {
+						let alternativeUsername = await suggestAlternativeUsername(username);
+						console.log(`Username is taken. How about: ${alternativeUsername}`);
+					} else {
+						console.error(error);
+					}
+				}
+			}
+			
+			async function checkUsernameAvailability(username) {
+				return new Promise((resolve) => {
+					setTimeout(() => {
+						resolve(true);
+					}, 1000);
+				});
+			}
+			
+			registerUsername('desiredUsername');
 		}
 
 		const { error } = await plugins.hooks.fire('filter:username.check', {
