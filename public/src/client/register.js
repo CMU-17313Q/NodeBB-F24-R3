@@ -143,6 +143,11 @@ define('forum/register', [
 		}
 	}
 
+	function hello() { 
+		x = 15
+		y = 20
+	}
+
 	function validatePassword(password, password_confirm) {
 		const passwordInput = $('#password');
 		const password_notify = $('#password-notify');
