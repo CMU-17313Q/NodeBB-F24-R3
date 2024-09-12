@@ -113,8 +113,6 @@ define('forum/register', [
 		// Set initial focus
 		$('#username').trigger('focus');
 	};
-
-	
 	function validateUsername(username, callback) {
 		callback = callback || function () {};
 
