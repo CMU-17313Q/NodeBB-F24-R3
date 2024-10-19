@@ -20,6 +20,7 @@ const apiHelpers = require('../api/helpers');
 const Namespaces = Object.create(null);
 
 const Sockets = module.exports;
+const SocketPlugins = {};
 
 Sockets.init = async function (server) {
 	requireModules();
@@ -335,4 +336,15 @@ Sockets.warnDeprecated = (socket, replacement) => {
 		`${new Error('-').stack.split('\n').slice(2, 5).join('\n')}`,
 		`      ${replacement ? `use ${replacement}` : 'there is no replacement for this call.'}`,
 	].join('\n'));
+};
+
+SocketPlugins.chat = {
+	messageRead: function (socket, data, callback) {
+		const { messageId, userId } = data;
+		db.collection('messages').update(
+			{ _id: messageId },
+			{ $addToSet: { readBy: userId } }
+		);
+		callback(null, true);
+	},
 };

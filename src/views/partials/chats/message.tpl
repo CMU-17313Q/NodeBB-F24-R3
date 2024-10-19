@@ -15,8 +15,12 @@
 		{{{ end }}}
 		<span class="chat-timestamp text-muted timeago" title="{messages.timestampISO}"></span>
 
-		<div component="chat/message/edited" class="text-muted ms-auto {{{ if !messages.edited }}}hidden{{{ end }}}" title="[[global:edited-timestamp, {isoTimeToLocaleString(messages.editedISO, config.userLang)}]]"><i class="fa fa-edit"></i></span></div>
+		<!-- Add the read receipt tick as a clickable button -->
+		<button class="read-receipt text-muted" title="Message Read" onclick="markAsRead('{messages.messageId}')">✔</button>
+
+		<div component="chat/message/edited" class="text-muted ms-auto {{{ if !messages.edited }}}hidden{{{ end }}}" title="[[global:edited-timestamp, {isoTimeToLocaleString(messages.editedISO, config.userLang)}]]"><i class="fa fa-edit"></i></div>
 	</div>
+
 	<div class="message-body-wrapper">
 		<div component="chat/message/body" class="message-body ps-0 py-0 overflow-auto text-break">
 			{messages.content}
@@ -74,3 +78,41 @@
 		</div>
 	</div>
 </li>
+<style>
+.read-receipt {
+    font-size: 12px;
+    color: green; /* Default tick color */
+    margin-left: 5px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.read-receipt.all-read {
+    color: blue; /* Change to blue when all users have clicked */
+}
+</style>
+<script>
+if (typeof usersWhoRead === 'undefined') {
+    var usersWhoRead = {};  // Use var for global scope if needed, or let/const if scoped
+}
+function markAsRead(messageId) {
+    const userId = app.user.uid;  // Replace this with the actual user ID of the logged-in user
+    const totalUsers = 2;  
+
+    // If this message is not being tracked, initialize it
+    if (!usersWhoRead[messageId]) {
+        usersWhoRead[messageId] = new Set();
+    }
+
+    // Add the current user to the set of users who have clicked
+    usersWhoRead[messageId].add(userId);
+
+    // If all users have clicked the tick, change the color to blue
+    if (usersWhoRead[messageId].size === totalUsers) {
+        const messageElement = document.querySelector(`li[data-mid="${messageId}"] .read-receipt`);
+        messageElement.classList.add('all-read');
+    }
+}
+
+</script>
